@@ -38,6 +38,7 @@ class FN_bot_data:
         self.add_user = '/add_users'
         self.add_user_btn = 'Add user'
         #end
+
     def commands_list(self):
         return [self.start_notify, self.start_notify_btn, self.stop_notify, self.stop_notify_btn, self.help, self.help_btn, '/get_my_info', 'Main menu', self.settings_btn]
 
@@ -55,6 +56,14 @@ def parse_commands_string(str, command):
         return dict    
     except:
         return False   
+
+
+async def req_async():
+    async with aiohttp.ClientSession() as session:
+        url = "http://fn_fastapi_server:8005/send_request_to_fn/"
+        async with session.get(url) as resp:
+            result = await resp.json()
+            return result
 
 
 async def get_users_list():

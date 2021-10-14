@@ -44,7 +44,7 @@ def add_work_order(db: Session = Depends(get_db)):
 def add_work_order(work_order: schemas.All_work_ordersCreate, db: Session = Depends(get_db)):
     return crud.add_work_order(db=db, work_order=work_order)
 
-#clear the wok orders table
+#clear the work orders table
 @app.delete("/clear_work_orders/")
 def clear_all_work_orders(db: Session = Depends(get_db)):
     return crud.clear_table_all_work_orders(db=db)
@@ -97,7 +97,7 @@ def remove_printer_from_list(chat_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     else:
+        crud.remove_user_from_users_info_by_chatid(db, chat_id=chat_id)
         data = { "chat id": f"{db_user.chat_id}", "status": "removed"}
-    crud.remove_user_from_users_info_by_chatid(db, chat_id=chat_id)
     return data
 #end#    

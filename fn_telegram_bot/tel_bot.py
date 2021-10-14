@@ -1,29 +1,25 @@
-import aiohttp
 from aiogram import Bot, Dispatcher, types, executor
 from aiogram.dispatcher import filters
+
 import markup as nav
 from vardata import FN_bot_data, parse_commands_string
+import vardata
+
 import requests
 import json
 import asyncio
 import time
-import vardata
 
 bot = Bot(FN_bot_data.BOT_TOKEN)
 dp = Dispatcher(bot)
 
-async def req_async():
-    async with aiohttp.ClientSession() as session:
-        url = "http://fn_fastapi_server:8005/send_request_to_fn/"
-        async with session.get(url) as resp:
-            result = await resp.json()
-            return result
 
 async def new_f():
     if FN_bot_data.status == 1:
         print(time.strftime('%X'))
+        
         try:
-            work_orders = await req_async()
+            work_orders = await vardata.req_async()
             print(work_orders[1])
             users_list = await vardata.get_users_list()
             for user in users_list:
